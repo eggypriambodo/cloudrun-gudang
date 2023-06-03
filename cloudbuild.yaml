@@ -1,0 +1,13 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/project-tcc-388610/warehouse', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/project-tcc-388610/warehouse']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'warehouse', '--image', 'gcr.io/project-tcc-388610/warehouse', '--region', 'asia-southeast1']
+images:
+- gcr.io/project-tcc-388610/warehouse
